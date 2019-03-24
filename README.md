@@ -37,7 +37,8 @@ Servo servo1;
 Servo servo2;
 int TX = 10; 
 int RX = 11; 
-SoftwareSerial HC_06(TX, RX);  //Bluetooth TX to 10 and Bluetooth RX to 11.
+
+SoftwareSerial HC_06(TX, RX);   //Bluetooth TX to 10 and Bluetooth RX to 11.
 
             
 In the setup function, we give the command to control pins 8 and 9 for servo motors because we have attached the servo motors at these pins. Then we start the serial and Bluetooth communication.
@@ -60,8 +61,6 @@ if(HC_06.available()> 0 )
     servo1.write(servo1_position);
   }
 
-    
-        
 If the received value will be between 91–180, it will move the second servo.
 
 if(value>90 && value<=180)
