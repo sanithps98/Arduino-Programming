@@ -1,5 +1,4 @@
-# Arduino-Programming
-Controlling Servo Motors with Arduino UNO and an Android Application
+# Controlling Servo Motors with Arduino UNO and an Android Application
 
 In this project, we are going to control two servo motors using an Arduino UNO and an Android app on a mobile device.
 
@@ -20,18 +19,18 @@ Connect the GND of Bluetooth module to the GND of Arduino
 Connect the TX of Bluetooth module to pin 10 of Arduino
 Connect the RX of Bluetooth module to pin 11 of Arduino
 
-How to Run
+# How to Run
 
 Turn ON your mobile Bluetooth and open the Android app. Connect to the Bluetooth module, and when you move the sliders on the app, the servos will move accordingly.
 
-Code Explanation
+# Code Explanation
+
 First, include the libraries that are needed for this project. The software serial library will allow us to use the TX and RX on the other Arduino pins. The default TX, RX pins of Arduino are 0 and 1. The servo library will allow us to control the servo motors.
 
 
 #include <SoftwareSerial.h> 
 #include <Servo.h>
-
-            
+           
 Next we initialize two variables to access the library functions for servo motors. After that, we initialize pin 10 as TX and pin 11 as RX and tell the Arduino to use the TX and RX communication on these pins.
 
 Servo servo1; 
@@ -44,30 +43,33 @@ SoftwareSerial HC_06(TX, RX);  //Bluetooth TX to 10 and Bluetooth RX to 11.
 In the setup function, we give the command to control pins 8 and 9 for servo motors because we have attached the servo motors at these pins. Then we start the serial and Bluetooth communication.
     
 servo1.attach(9); 
-  servo2.attach(8);
-  Serial.begin(9600);
-  HC_06.begin(9600);
+servo2.attach(8);
+Serial.begin(9600);
+HC_06.begin(9600);
 
             
 In the loop function, we check if the Bluetooth module has sent some data or not. If some data will be available, then it will read the data and will store in the variable. If the data will be between 0 and 90, then it will move the first servo. To move the servo, we will map the value from 0–90 to 0–180.
     
 if(HC_06.available()> 0 ) 
+  
   {
     int value = HC_06.read(); 
     if(value>=0 && value<=90){
-      Serial.println(value); 
-      int servo1_position = map(value, 0, 90, 0, 180);
-      servo1.write(servo1_position);
-    }
+    Serial.println(value); 
+    int servo1_position = map(value, 0, 90, 0, 180);
+    servo1.write(servo1_position);
+  }
 
     
         
 If the received value will be between 91–180, it will move the second servo.
 
-if(value>90 && value<=180){
+if(value>90 && value<=180)
+
+  {
       Serial.println(value); 
       int servo2_position = map(value, 91, 180, 0, 180);
       servo2.write(servo2_position);
-    }
+  }
 
             
